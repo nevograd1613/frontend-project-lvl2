@@ -1,2 +1,14 @@
 gendiff:
-	node bin/gendiff.js file1.json file2.json
+	node bin/gendiff.js
+
+lint:
+	npx eslint .
+
+test:
+	npm test
+
+publish:
+	npm publish --dry-run
+
+test-coverage:
+	npm test -- --coverage --coverageProvider=v8
