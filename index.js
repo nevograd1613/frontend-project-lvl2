@@ -1,5 +1,7 @@
+import path from 'path';
 import _ from 'lodash';
 import readfile from './src/readfile.js';
+import parse from './src/parse.js';
 
 const getDiffInfo = (obj1, obj2) => {
   const keys1 = Object.keys(obj1);
@@ -59,11 +61,15 @@ const getDiff = (diffInfo) => {
   return `{\n${result.join('\n')}\n}`;
 };
 
+const getFormat = (filename) => path.extname(filename);
+
 const genDiff = (file1, file2) => {
   const firstObj = readfile(file1);
   const secondObj = readfile(file2);
-  const data1 = JSON.parse(firstObj);
-  const data2 = JSON.parse(secondObj);
+  const formatData1 = getFormat(file1);
+  const formatData2 = getFormat(file2);
+  const data1 = parse(formatData1, firstObj);
+  const data2 = parse(formatData2, secondObj);
   return getDiff(getDiffInfo(data1, data2));
 };
 
