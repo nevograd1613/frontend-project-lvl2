@@ -1,9 +1,5 @@
 import _ from 'lodash';
-import fs from 'fs';
-import path from 'path';
-import process from 'process';
-
-const readFile = (fileName) => fs.readFileSync(path.resolve(process.cwd(), path.join('../../../', fileName.trim())));
+import readfile from './src/readfile.js';
 
 const getDiffInfo = (obj1, obj2) => {
   const keys1 = Object.keys(obj1);
@@ -64,8 +60,8 @@ const getDiff = (diffInfo) => {
 };
 
 const genDiff = (file1, file2) => {
-  const firstObj = readFile(file1);
-  const secondObj = readFile(file2);
+  const firstObj = readfile(file1);
+  const secondObj = readfile(file2);
   const data1 = JSON.parse(firstObj);
   const data2 = JSON.parse(secondObj);
   return getDiff(getDiffInfo(data1, data2));
