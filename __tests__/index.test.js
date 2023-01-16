@@ -1,7 +1,6 @@
-import * as path from 'path';
 import { expect, test } from '@jest/globals';
 import genDiff from '../index.js';
-import readFile, { getFixturePath } from '../src/readfile.js';
+import readFile from '../src/readfile.js';
 
 const testFile = readFile('test.txt');
 
