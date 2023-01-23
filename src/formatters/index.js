@@ -11,7 +11,7 @@ const whatFormat = (obj, format) => {
   if (format === 'json') {
     return json(obj);
   }
-  return null;
+  throw new Error();
 };
 
 export default whatFormat;

@@ -6,6 +6,6 @@ const parse = (format, data) => {
   } if (format === '.yml' || format === '.yaml') {
     return yaml.load(data);
   }
-  return null;
+  throw new Error();
 };
 export default parse;

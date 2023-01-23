@@ -13,22 +13,20 @@ const plain = (data) => {
   const iter = (tree, acc) => {
     const result = tree.flatMap((node) => {
       const newAcc = (acc === '') ? `${node.name}` : `${acc}.${node.name}`;
-      if (node.type === 'added') {
-        return `Property '${newAcc}' was added with value: ${stringify(node.value)}`;
+      switch (node.type) {
+        case 'added':
+          return `Property '${newAcc}' was added with value: ${stringify(node.value)}`;
+        case 'deleted':
+          return `Property '${newAcc}' was removed`;
+        case 'changed':
+          return `Property '${newAcc}' was updated. From ${stringify(node.value)} to ${stringify(node.newValue)}`;
+        case 'nested':
+          return iter(node.value, newAcc);
+        case 'unchanged':
+          return [];
+        default:
+          return 'invalid';
       }
-      if (node.type === 'deleted') {
-        return `Property '${newAcc}' was removed`;
-      }
-      if (node.type === 'changed') {
-        return `Property '${newAcc}' was updated. From ${stringify(node.value)} to ${stringify(node.newValue)}`;
-      }
-      if (node.type === 'nested') {
-        return iter(node.value, newAcc);
-      }
-      if (node.type === 'unchanged') {
-        return [];
-      }
-      return 'invalid';
     });
     return [...result].join('\n');
   };

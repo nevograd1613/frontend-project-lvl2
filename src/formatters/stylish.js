@@ -39,23 +39,20 @@ const stylish = (data) => {
       const indentSize = depth * keyOffset;
       const bracketIndent = indentSymbol.repeat(indentSize);
       const keyIndent = indentSymbol.repeat(indentSize - prefixOffset);
-      const addPref = `${addPrefix(node.name, node.type, keyIndent)}: ${stringify(node.value, depth + 1)}`;
-      if (node.type === 'added' || node.type === 'deleted' || node.type === 'ubchanged') {
-        return addPref;
+      switch (node.type) {
+        case 'added':
+          return `${addPrefix(node.name, node.type, keyIndent)}: ${stringify(node.value, depth + 1)}`;
+        case 'deleted':
+          return `${addPrefix(node.name, node.type, keyIndent)}: ${stringify(node.value, depth + 1)}`;
+        case 'unchanged':
+          return `${addPrefix(node.name, node.type, keyIndent)}: ${stringify(node.value, depth + 1)}`;
+        case 'changed':
+          return `${addPrefix(node.name, 'deleted', keyIndent)}: ${stringify(node.value, depth + 1)}\n${addPrefix(node.name, 'added', keyIndent)}: ${stringify(node.newValue, depth + 1)}`;
+        case 'nested':
+          return `${addPrefix(node.name, node.type, keyIndent)}: ${openSymbol}\n${iter(node.value, depth + 1).join('\n')}\n${bracketIndent}${closeSymbol}`;
+        default:
+          throw new Error();
       }
-      if (node.type === 'deleted') {
-        return addPref;
-      }
-      if (node.type === 'unchanged') {
-        return addPref;
-      }
-      if (node.type === 'changed') {
-        return `${addPrefix(node.name, 'deleted', keyIndent)}: ${stringify(node.value, depth + 1)}\n${addPrefix(node.name, 'added', keyIndent)}: ${stringify(node.newValue, depth + 1)}`;
-      }
-      if (node.type === 'nested') {
-        return `${addPrefix(node.name, node.type, keyIndent)}: ${openSymbol}\n${iter(node.value, depth + 1).join('\n')}\n${bracketIndent}${closeSymbol}`;
-      }
-      throw new Error();
     });
     return result;
   };
