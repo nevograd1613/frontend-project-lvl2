@@ -5,6 +5,6 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturePath = (name) => path.join(__dirname, '..', '__fixtures__', name);
-const readFile = (name) => fs.readFileSync(getFixturePath(name), 'utf-8');
+export const getFixturePath = (filename) => path.resolve(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 export default readFile;
