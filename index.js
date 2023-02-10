@@ -1,8 +1,8 @@
 import path from 'path';
+import fs from 'fs';
 import _ from 'lodash';
-import readfile from './src/readfile.js';
 import parse from './src/parse.js';
-import whatFormat from './src/formatters/index.js';
+import formatData from './src/formatters/index.js';
 
 const genDiffComparison = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2));
@@ -30,14 +30,14 @@ const genDiffComparison = (obj1, obj2) => {
 const getFormat = (filename) => path.extname(filename);
 
 const genDiff = (file1, file2, format = 'stylish') => {
-  const formatData1 = getFormat(file1);
-  const formatData2 = getFormat(file2);
-  const firstObj = readfile(file1);
-  const secondObj = readfile(file2);
+  const formatData1 = getFormat(file1).slice(1);
+  const formatData2 = getFormat(file2).slice(1);
+  const firstObj = fs.readFileSync(file1);
+  const secondObj = fs.readFileSync(file2);
   const data1 = parse(formatData1, firstObj);
   const data2 = parse(formatData2, secondObj);
   const diff = genDiffComparison(data1, data2);
-  return whatFormat(diff, format);
+  return formatData(diff, format);
 };
 
 export default genDiff;

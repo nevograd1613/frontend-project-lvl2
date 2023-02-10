@@ -51,7 +51,7 @@ const stylish = (data) => {
         case 'nested':
           return `${addPrefix(node.name, node.type, keyIndent)}: ${openSymbol}\n${iter(node.value, depth + 1).join('\n')}\n${bracketIndent}${closeSymbol}`;
         default:
-          throw new Error();
+          throw new Error('Unknown type');
       }
     });
     return result;
