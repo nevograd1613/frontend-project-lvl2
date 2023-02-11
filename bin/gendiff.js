@@ -9,9 +9,9 @@ import genDiff from '../index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const getFixturePath = (filename) => path.resolve(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.resolve(__dirname, '..', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
-const versions = JSON.parse(readFile('../package.json')).version;
+const versions = JSON.parse(readFile('package.json')).version;
 
 const program = new Command();
 
